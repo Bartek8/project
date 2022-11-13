@@ -21,7 +21,9 @@ import {
 } from '../../user-domain/ports/user-entity.repository';
 
 @CommandHandler(LoginUserCommand)
-export class LoginCommandHandler implements ICommandHandler<LoginUserCommand> {
+export class LoginUserCommandHandler
+  implements ICommandHandler<LoginUserCommand>
+{
   constructor(
     @Inject(USER_ENTITY_REPOSITORY_TOKEN)
     private readonly userEntityRepository: IUserEntityRepository,

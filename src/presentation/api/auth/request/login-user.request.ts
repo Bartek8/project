@@ -9,7 +9,7 @@ export class LoginUserRequest {
   email: string;
 
   @ApiProperty({
-    example: 'Password',
+    example: 'Secret1!',
   })
   @Length(8)
   password: string;

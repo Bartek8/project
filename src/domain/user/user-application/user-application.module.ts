@@ -6,10 +6,12 @@ import { registerUserIndex } from './register-user';
 import { refreshTokenIndex } from './refresh-token';
 import { loginUserIndex } from './login-user';
 import { applicationServiceIndex } from './application-service';
+import { createUserIndex } from './create-user';
 
 @Module({
   imports: [UserDomainModule, CqrsModule, UserInfrastructureModule],
   providers: [
+    ...createUserIndex,
     ...loginUserIndex,
     ...refreshTokenIndex,
     ...registerUserIndex,

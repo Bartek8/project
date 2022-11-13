@@ -9,7 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "bin": "node ./dist/bin.js",
+    "bin": "node ./dist/src/bin.js",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -21,7 +21,11 @@
     "test:watch": "jest --watch",
     "test:cov": "cross-env NODE_ENV=INTEGRATION_TEST jest --coverage --config jest-coverage.json",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "cross-env NODE_ENV=E2E_TEST jest --maxWorkers=1 --config ./test/jest-e2e.json"
+    "test:e2e": "cross-env NODE_ENV=E2E_TEST jest --maxWorkers=1 --config ./test/jest-e2e.json",
+    "user:migration:generate": "dotenv -c -- npx typeorm-ts-node-esm migration:generate ./src/domain/user/user-infrastructure/database/migrations/user -d ./src/domain/user/user-infrastructure/database/config/typeorm.config.ts",
+    "user:migration:run": "dotenv -c -- npx typeorm-ts-node-esm migration:run -d ./src/domain/user/user-infrastructure/database/config/typeorm.config.ts",
+    "user:migration:revert": "dotenv -c -- npx typeorm-ts-node-esm migration:revert -d ./src/domain/user/user-infrastructure/database/config/typeorm.config.ts",
+    "seed:user": "npm run bin seed:user"
   },
   "dependencies": {
     "@golevelup/nestjs-rabbitmq": "^2.2.0",
@@ -48,7 +52,8 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.0.0",
+    "dotenv": "^16.0.3",
+    "dotenv-cli": "^6.0.0",
     "joi": "^17.6.0",
     "nest-commander": "^2.4.0",
     "passport": "^0.5.2",

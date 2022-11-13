@@ -12,8 +12,9 @@ import { JwtValueObject } from '../value-object/jwt.value-object';
 import { RefreshTokenEntity } from './refresh-token.entity';
 import { Guid } from '@shared-kernel/type/guid.value-object';
 import { IPasswordService } from '../ports/password.service';
+import { UserCreatedDomainEvent } from '../domain-event/user-created.domain-event';
 
-export type IUserEntityAggregateRoot = {
+export interface IUserEntityAggregateRoot {
   id: Guid;
   email: EmailValueObject;
   password: PasswordHashValueObject;
@@ -21,7 +22,7 @@ export type IUserEntityAggregateRoot = {
   updatedAt: Date;
   role: UserRoleEnum;
   refreshTokens: RefreshTokenEntity[];
-};
+}
 export class UserEntityAggregateRoot extends AggregateRoot {
   private email: EmailValueObject;
   private password: PasswordHashValueObject;
@@ -64,6 +65,23 @@ export class UserEntityAggregateRoot extends AggregateRoot {
 
     this.domainEvents.push(
       new UserRegisteredDomainEvent({
+        id: this.id,
+        email: this.email,
+        role: this.role,
+        createdAt: this.createdAt,
+      }),
+    );
+  }
+
+  public async create(payload: CreateUserPayloadDto): Promise<void> {
+    const { email, password, role } = payload;
+
+    this.email = email;
+    this.password = password;
+    this.role = role;
+
+    this.domainEvents.push(
+      new UserCreatedDomainEvent({
         id: this.id,
         email: this.email,
         role: this.role,

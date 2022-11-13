@@ -5,7 +5,7 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
-import { ProblemDetails } from './problem-details';
+import { ProblemDetails } from '../problem-details';
 import { Response } from 'express';
 import { ExceptionEnum } from '@shared-kernel/exception/exception.enum';
 import { IRequest } from '@presentation/logging/request.interface';

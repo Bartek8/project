@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ExceptionEnum } from '@shared-kernel/exception/exception.enum';
 import { Response } from 'express';
-import { ProblemDetails } from './problem-details';
+import { ProblemDetails } from '../problem-details';
 import { IExceptionResponse } from '@shared-kernel/exception/exception-response.interface';
 import { IRequest } from '@presentation/logging/request.interface';
 

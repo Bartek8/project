@@ -37,3 +37,8 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Other
+
+Error standard RFC7807 - Problem Details for HTTP APIs <br>
+https://www.rfc-editor.org/rfc/rfc7807

@@ -9,7 +9,7 @@ import { exceptionIndex } from '@shared-kernel/exception';
 import { ICustomExceptionResponse } from '@shared-kernel/exception/custom-exception-response.interface';
 import { ExceptionEnum } from '@shared-kernel/exception/exception.enum';
 import { Response } from 'express';
-import { ProblemDetails } from './problem-details';
+import { ProblemDetails } from '../problem-details';
 import { IRequest } from '@presentation/logging/request.interface';
 
 @Catch(...exceptionIndex)

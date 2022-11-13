@@ -1,0 +1,19 @@
+{
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": ".",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "testTimeout": 30000,
+  "moduleNameMapper": {
+    "^@shared-kernel/(.*)$": "<rootDir>/../src/shared-kernel/$1",
+    "^@infrastructure/(.*)$": "<rootDir>/../src/infrastructure/$1",
+    "^@presentation/(.*)$": "<rootDir>/../src/presentation/$1",
+    "^@user-contract/(.*)$": "<rootDir>/../src/bounded-context/user/user-contract/$1",
+    "^@sale-contract/(.*)$": "<rootDir>/../src/bounded-context/sale/sale-contract/$1",
+    "^@delivery-contract/(.*)$": "<rootDir>/../src/bounded-context/delivery/delivery-contract/$1",
+    "^@order-contract/(.*)$": "<rootDir>/../src/bounded-context/order/order-contract/$1"
+  }
+}

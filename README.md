@@ -23,6 +23,7 @@ Error standard RFC7807 - Problem Details for HTTP APIs <br>
 https://www.rfc-editor.org/rfc/rfc7807
 
 #### What's next?
+* Setup e2e test (init db, seed data, perform test) 
 * Add another bounded context (another module in domain folder).
 * Create integration between bounded context.
 * Integration with Azure vie GitHub actions

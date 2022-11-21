@@ -11,6 +11,7 @@ import { ExceptionEnum } from '@shared-kernel/exception/exception.enum';
 import { Response } from 'express';
 import { ProblemDetails } from '../problem-details';
 import { IRequest } from '@presentation/logging/request.interface';
+import { handleLogging } from '@presentation/error-handling/handle-logging';
 
 @Catch(...exceptionIndex)
 export class CustomExceptionFilter implements ExceptionFilter {
@@ -32,6 +33,7 @@ export class CustomExceptionFilter implements ExceptionFilter {
       traceId: request?.requestId,
       errors: exceptionResponse?.errors,
     });
+    handleLogging(this.logger, status, problemDetails);
     response.status(status).json(problemDetails);
   }
 }

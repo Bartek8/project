@@ -5,6 +5,7 @@ import { InfrastructureException } from './infrastructure.exception';
 import { NotFoundException } from './not-found.exception';
 import { UnauthorizedException } from './unauthorized.exception';
 import { ValidationException } from './validation.exception';
+import { ForbiddenException } from '@shared-kernel/exception/forbidden.exception';
 
 export const exceptionIndex = [
   ApplicationException,
@@ -14,4 +15,5 @@ export const exceptionIndex = [
   BadRequestException,
   NotFoundException,
   UnauthorizedException,
+  ForbiddenException,
 ];

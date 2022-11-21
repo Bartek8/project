@@ -1,7 +1,7 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { AuthUser } from '@shared-kernel/auth/auth.user';
+import { AuthUser } from '@shared-kernel/auth/auth-user';
 import { plainToClass } from 'class-transformer';
 import { Injectable } from '@nestjs/common';
 import { IJwtConfig } from '@infrastructure/config/jwt.interface';

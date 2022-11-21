@@ -8,12 +8,12 @@ import {
 } from '@nestjs/swagger';
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from '@presentation/auth/guard/jwt-auth.guard';
-import { Roles, RolesGuard } from '@presentation/auth/guard/role.guards';
+import { Roles, RolesGuard } from '@presentation/auth/guard/role.guard';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { UserResponse } from '@presentation/api/user/response/user.response';
 import { UserRoleEnum } from '@shared-kernel/auth/user-role.enum';
 import { ApiUser } from '@presentation/auth/decorator/api-user.decorator';
-import { AuthUser } from '@shared-kernel/auth/auth.user';
+import { AuthUser } from '@shared-kernel/auth/auth-user';
 import { GetUserByIdQuery } from '../../../domain/user/user-presentation/get-user/get-user-by-id.query';
 import { ListUsersQuery } from 'src/domain/user/user-presentation/list-users/list-users.query';
 import { Guid } from '@shared-kernel/type/guid.value-object';

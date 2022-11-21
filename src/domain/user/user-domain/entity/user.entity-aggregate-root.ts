@@ -7,7 +7,7 @@ import { UserRoleEnum } from '@shared-kernel/auth/user-role.enum';
 import { CreateUserPayloadDto } from '../dto/create-user-payload.dto';
 import { PasswordHashValueObject } from '../value-object/password-hash.value-object';
 import { LoginUserPayloadDto } from '../dto/login-user-payload.dto';
-import { AuthUser } from '@shared-kernel/auth/auth.user';
+import { AuthUser } from '@shared-kernel/auth/auth-user';
 import { JwtValueObject } from '../value-object/jwt.value-object';
 import { RefreshTokenEntity } from './refresh-token.entity';
 import { Guid } from '@shared-kernel/type/guid.value-object';

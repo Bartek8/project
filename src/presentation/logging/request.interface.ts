@@ -1,4 +1,4 @@
-import { AuthUser } from '@shared-kernel/auth/auth.user';
+import { AuthUser } from '@shared-kernel/auth/auth-user';
 import { Request } from 'express';
 
 export interface IRequest extends Request {

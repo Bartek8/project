@@ -6,8 +6,10 @@ import {
 } from '@nestjs/common';
 import { SetMetadata } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { AuthUser } from '@shared-kernel/auth/auth.user';
+import { AuthUser } from '@shared-kernel/auth/auth-user';
 import { UserRoleEnum } from '@shared-kernel/auth/user-role.enum';
+import { ForbiddenException } from '@shared-kernel/exception/forbidden.exception';
+import { ExceptionEnum } from '@shared-kernel/exception/exception.enum';
 
 const ROLES_KEY = 'ROLES_KEY';
 
@@ -21,16 +23,28 @@ export class RolesGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const roles = this.reflector.get<string[]>(ROLES_KEY, context.getHandler());
 
-    if (!roles) {
+    if (!roles || roles.length < 1) {
       return true;
     }
 
     const request = context.switchToHttp().getRequest();
     const user: AuthUser = request.user;
     if (!user) {
-      return false;
+      throw new ForbiddenException(
+        ExceptionEnum.ROLE_REQUIRED,
+        'User not found',
+      );
     }
 
-    return roles.includes(user.role);
+    if (!roles.includes(user.role)) {
+      throw new ForbiddenException(
+        ExceptionEnum.INSUFFICIENT_ROLE,
+        `Required ${roles.length > 1 ? 'roles' : 'role'}: ${roles.join(
+          ', ',
+        )}. Your role: ${user.role}`,
+      );
+    }
+
+    return true;
   }
 }

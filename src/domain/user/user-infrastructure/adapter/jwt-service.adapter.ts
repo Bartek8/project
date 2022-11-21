@@ -1,7 +1,7 @@
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { JwtValueObject } from '../../user-domain/value-object/jwt.value-object';
-import { AuthUser } from '@shared-kernel/auth/auth.user';
+import { AuthUser } from '@shared-kernel/auth/auth-user';
 import { ConfigService } from '@nestjs/config';
 import { IJwtConfig } from '@infrastructure/config/jwt.interface';
 import { AppConfigEnum } from '@infrastructure/config/app-config.enum';

@@ -9,13 +9,13 @@ import { ProblemDetails } from '../problem-details';
 import { Response } from 'express';
 import { ExceptionEnum } from '@shared-kernel/exception/exception.enum';
 import { IRequest } from '@presentation/logging/request.interface';
+import { handleLogging } from '@presentation/error-handling/handle-logging';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
   logger = new Logger(AllExceptionsFilter.name);
 
   catch(exception: any, host: ArgumentsHost): void {
-    this.logger.error(exception);
     const ctx = host.switchToHttp();
     const type = ExceptionEnum.INTERNAL_SERVER_ERROR;
     const status = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -29,6 +29,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       instance: request?.originalUrl,
       traceId: request?.requestId,
     });
+    handleLogging(this.logger, status, problemDetails);
     response.status(status).json(problemDetails);
   }
 }

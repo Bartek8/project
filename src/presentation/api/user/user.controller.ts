@@ -6,7 +6,14 @@ import {
   ApiUnauthorizedResponse,
   ApiForbiddenResponse,
 } from '@nestjs/swagger';
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '@presentation/auth/guard/jwt-auth.guard';
 import { Roles, RolesGuard } from '@presentation/auth/guard/role.guard';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -19,6 +26,8 @@ import { ListUsersQuery } from 'src/domain/user/user-presentation/list-users/lis
 import { Guid } from '@shared-kernel/type/guid.value-object';
 import { CreateUserRequest } from '@presentation/api/user/request/create-user.request';
 import { CreateUserCommand } from 'src/domain/user/user-application/create-user/create-user.command';
+import { UserEntityDto } from 'src/domain/user/user-contract/dto/user-entity.dto';
+import { HttpCacheInterceptor } from '@presentation/cache/http-cache.interceptor';
 
 const USER_CONTROLLER_NAME = 'user';
 
@@ -36,10 +45,10 @@ export class UserController {
   @ApiResponse({ type: [UserResponse] })
   @Get()
   @Roles(UserRoleEnum.ADMIN)
+  @UseInterceptors(HttpCacheInterceptor)
   async list(): Promise<UserResponse[]> {
-    const usersDto = await this.queryBus.execute<ListUsersQuery>(
-      new ListUsersQuery(),
-    );
+    const usersDto: UserEntityDto[] =
+      await this.queryBus.execute<ListUsersQuery>(new ListUsersQuery());
 
     return usersDto.map((userDto) => UserResponse.fromDto(userDto));
   }
@@ -48,15 +57,14 @@ export class UserController {
   @Get('me')
   @Roles(UserRoleEnum.ADMIN, UserRoleEnum.USER)
   public async me(@ApiUser() apiUser: AuthUser): Promise<UserResponse> {
-    const userEntityDto = await this.queryBus.execute<GetUserByIdQuery>(
-      new GetUserByIdQuery({
-        userId: new Guid(apiUser.userId),
-      }),
-    );
+    const userEntityDto: UserEntityDto =
+      await this.queryBus.execute<GetUserByIdQuery>(
+        new GetUserByIdQuery({
+          userId: new Guid(apiUser.userId),
+        }),
+      );
 
-    return new UserResponse({
-      ...userEntityDto,
-    });
+    return UserResponse.fromDto(userEntityDto);
   }
 
   @ApiCreatedResponse()

@@ -10,6 +10,16 @@ export const getNodeEnv = (): NodeEnvEnum =>
 export const nodeEnvIn = (...env: NodeEnvEnum[]): boolean =>
   env.includes(getNodeEnv());
 
+export const getEnvFileName = (): string => {
+  const env = getNodeEnv();
+  switch (env) {
+    case NodeEnvEnum.PRODUCTION:
+      return '.env.prod';
+    default:
+      return '.env.local';
+  }
+};
+
 export const infrastructureRequired = (): boolean =>
   nodeEnvIn(
     NodeEnvEnum.PRODUCTION,
@@ -25,12 +35,24 @@ export default (): IAppConfig => {
       hostname: ENV.APP_HOSTNAME,
       protocol: ENV.APP_PROTOCOL,
     },
+    [AppConfigEnum.MONGO_CONFIG]: {
+      database: ENV.MONGO_DATABASE,
+      hostname: ENV.MONGO_HOSTNAME,
+      username: ENV.MONGO_USERNAME,
+      password: ENV.MONGO_PASSWORD,
+    },
     [AppConfigEnum.POSTGRESQL_CONFIG]: {
       hostname: ENV.POSTGRESQL_HOST,
       username: ENV.POSTGRESQL_USERNAME,
       password: ENV.POSTGRESQL_PASSWORD,
       database: ENV.POSTGRESQL_DATABASE,
       port: +ENV.POSTGRESQL_PORT,
+    },
+    [AppConfigEnum.REDIS_CONFIG]: {
+      host: ENV.REDIS_HOST,
+      port: +ENV.REDIS_PORT,
+      password: ENV.REDIS_PASSWORD,
+      username: ENV.REDIS_USERNAME,
     },
     [AppConfigEnum.JWT_CONFIG]: {
       accessTokenSecret: ENV.ACCESS_TOKEN_SECRET,

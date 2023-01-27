@@ -11,7 +11,6 @@ export const typeormModuleConfig = (): DynamicModule => {
       const postgresqlConfig = configService.get<
         IAppConfig[AppConfigEnum.POSTGRESQL_CONFIG]
       >(AppConfigEnum.POSTGRESQL_CONFIG);
-
       return {
         ...typeormConfig,
         host: postgresqlConfig.hostname,

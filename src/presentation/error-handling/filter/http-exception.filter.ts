@@ -4,7 +4,6 @@ import {
   ArgumentsHost,
   HttpException,
   Logger,
-  HttpStatus,
 } from '@nestjs/common';
 import { ExceptionEnum } from '@shared-kernel/exception/exception.enum';
 import { Response } from 'express';

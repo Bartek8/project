@@ -8,9 +8,11 @@ import { CreateUserCommand } from '../../../domain/user/user-application/create-
   name: 'seed:user',
   description: 'Seed sample users',
 })
-export class SeedUserModuleCommand implements CommandRunner {
+export class SeedUserModuleCommand extends CommandRunner {
   private readonly logger = new Logger(SeedUserModuleCommand.name);
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(private readonly commandBus: CommandBus) {
+    super();
+  }
 
   async run(): Promise<void> {
     this.logger.debug('Seeding sample users...');

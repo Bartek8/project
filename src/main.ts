@@ -5,7 +5,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { LoggingInterceptor } from '@presentation/logging/logging.interceptor';
 import { AllExceptionsFilter } from '@presentation/error-handling/filter/all-exceptions.filter';
 import { CustomExceptionFilter } from '@presentation/error-handling/filter/custom-error-exception.filter';
-import { swaggerLoader } from '@presentation/loaders/swagger.loader';
+import { swaggerLoader } from '@presentation/loader/swagger.loader';
 import { validationPipeOptions } from '@presentation/error-handling/validation-pipe-options';
 import { HttpExceptionFilter } from '@presentation/error-handling/filter/http-exception.filter';
 import { AppConfigEnum } from '@infrastructure/config/app-config.enum';

@@ -29,6 +29,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       instance: request?.originalUrl,
       traceId: request?.requestId,
     });
+    this.logger.error(exception.stack);
     handleLogging(this.logger, status, problemDetails);
     response.status(status).json(problemDetails);
   }

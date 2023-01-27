@@ -1,24 +1,83 @@
-version: '3'
+version: '3.4'
 
 services:
-  project_redis:
+  api: 
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - '8080:8080'
+    depends_on:
+      - redis
+      - rabbitmq
+      - postgres
+      - mongo
+    healthcheck:
+      test: ["CMD", "curl", "-f", "${APP_PROTOCOL}://${APP_HOSTNAME}:${APP_PORT}/api"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 1m
+
+  redis:
     image: redis:6-alpine
     ports:
       - 6379:6379
-    command: redis-server --requirepass secret
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD", "redis-cli","ping"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 30s 
 
-  project_rabbitmq:
+  rabbitmq:
     image: rabbitmq:3.8-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s 
 
-  project_postgres:
+  postgres:
     image: postgres:12-alpine
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=project
+      - POSTGRES_USER=$POSTGRESQL_USERNAME
+      - POSTGRES_PASSWORD=$POSTGRESQL_PASSWORD
+      - POSTGRES_DB=$POSTGRESQL_DATABASE
     ports:
       - 5432:5432
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-q", "-d", "${POSTGRESQL_DATABASE}", "-U", "${POSTGRESQL_USERNAME}" ]
+      timeout: 30s
+      interval: 10s
+      retries: 5
+      start_period: 30s 
+
+  mongo:
+    image: mongo:6.0
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=$MONGO_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD=$MONGO_PASSWORD
+    ports:
+      - 27017:27017
+    volumes:
+      - mongo-db:/data/db
+    healthcheck:
+      test: echo 'db.runCommand({serverStatus:1}).ok' | mongo admin -u $MONGO_USERNAME -p $MONGO_PASSWORD --quiet | grep 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+      
+volumes:
+  postgres-db:
+  mongo-db:
